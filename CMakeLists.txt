@@ -9,8 +9,8 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Gui Charts)
-find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Gui Charts)
+find_package(QT NAMES Qt6 Qt5 REQUIRED COMPONENTS Widgets Gui Network)
+find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Gui Network)
 
 set(PROJECT_SOURCES
         main.cpp
@@ -21,6 +21,11 @@ if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
         MANUAL_FINALIZATION
         ${PROJECT_SOURCES}
 
+        includes/httpcrawler.h
+        includes/widgets.h
+
+        src/http/httpcrawler.cpp
+        src/UI/mainwindow.cpp
     )
 # Define target properties for Android with Qt 6 as:
 #    set_property(TARGET CPPWebcrawler APPEND PROPERTY QT_ANDROID_PACKAGE_SOURCE_DIR
@@ -40,7 +45,7 @@ else()
     endif()
 endif()
 
-target_link_libraries(CPPWebcrawler PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Charts Qt${QT_VERSION_MAJOR}::Gui)
+target_link_libraries(CPPWebcrawler PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Network Qt${QT_VERSION_MAJOR}::Gui)
 target_include_directories(CPPWebcrawler PUBLIC includes)
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
